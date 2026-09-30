@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mukesh Visuals | Video Editor</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050608;
+    color:#fff;
+    font-family:Inter,Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+:root{
+    --black:#050608;
+    --dark:#080a0d;
+    --white:#f5f5f5;
+    --gray:#858b92;
+    --line:rgba(255,255,255,.12);
+    --green:#d9ff3f;
+}
+
+/* =========================
+   NOISE
+========================= */
+
+.noise{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    pointer-events:none;
+    opacity:.035;
+
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+
+    height:80px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 6vw;
+
+    z-index:500;
+
+    background:linear-gradient(
+        180deg,
+        rgba(5,6,8,.9),
+        transparent
+    );
+
+    backdrop-filter:blur(8px);
+}
+
+.logo{
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.15em;
+}
+
+.logo span{
+    color:var(--green);
+    font-family:Anton;
+    font-size:22px;
+    margin-right:8px;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    color:#aaa;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:var(--green);
+}
+
+.hire-btn{
+    padding:12px 20px;
+    border:1px solid var(--line);
+    border-radius:50px;
+    font-size:9px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    transition:.3s;
+}
+
+.hire-btn:hover{
+    background:var(--green);
+    color:#000;
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+.menu{
+    display:none;
+    background:none;
+    border:0;
+    color:white;
+    font-size:25px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:100vh;
+    position:relative;
+
+    display:flex;
+    align-items:center;
+
+    padding:120px 8vw 80px;
+
+    overflow:hidden;
+}
+
+.hero-video{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:.38;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            #050608 0%,
+            rgba(5,6,8,.85) 40%,
+            rgba(5,6,8,.2)
+        ),
+        linear-gradient(
+            0deg,
+            #050608 0%,
+            transparent 30%
+        );
+}
+
+.hero-content{
+    position:relative;
+    z-index:5;
+
+    max-width:800px;
+}
+
+.small-title{
+    color:var(--green);
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.22em;
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-family:Anton,Impact,sans-serif;
+    font-size:clamp(75px,12vw,175px);
+    line-height:.85;
+    font-weight:400;
+}
+
+.hero h1 span{
+    color:var(--green);
+}
+
+.hero-description{
+    color:#aeb3b8;
+    max-width:550px;
+
+    font-size:14px;
+    line-height:1.8;
+
+    margin:35px 0;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:12px;
+}
+
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:15px 23px;
+
+    border-radius:50px;
+
+    font-size:9px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+
+    transition:.3s;
+}
+
+.btn-primary{
+    background:var(--green);
+    color:#000;
+}
+
+.btn-outline{
+    border:1px solid var(--line);
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.hero-info{
+    position:absolute;
+    right:30px;
+    top:50%;
+
+    writing-mode:vertical-rl;
+
+    color:#777;
+    font-size:8px;
+    letter-spacing:.25em;
+}
+
+/* =========================
+   MARQUEE
+========================= */
+
+.marquee{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+
+    overflow:hidden;
+    white-space:nowrap;
+
+    padding:18px 0;
+
+    background:#080a0d;
+}
+
+.marquee div{
+    font-family:Anton;
+    font-size:24px;
+    letter-spacing:.08em;
+
+    animation:marquee 20s linear infinite;
+}
+
+@keyframes marquee{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-50%);
+    }
+
+}
+
+/* =========================
+   GENERAL SECTION
+========================= */
+
+.section{
+    padding:130px 8vw;
+}
+
+.section-number{
+    color:#666;
+    font-size:8px;
+    letter-spacing:.25em;
+    margin-bottom:60px;
+}
+
+.section-title{
+    font-family:Anton;
+    font-weight:400;
+
+    font-size:clamp(60px,8vw,120px);
+
+    line-height:.9;
+}
+
+.section-title span{
+    color:var(--green);
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about{
+    background:#050608;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:9vw;
+
+    align-items:center;
+}
+
+.about-image{
+    position:relative;
+}
+
+.about-image img{
+    width:100%;
+    aspect-ratio:4/5;
+
+    object-fit:cover;
+
+    filter:grayscale(1);
+}
+
+.image-tag{
+    position:absolute;
+
+    right:-20px;
+    bottom:25px;
+
+    background:var(--green);
+    color:#000;
+
+    padding:15px;
+
+    font-size:9px;
+    font-weight:900;
+
+    transform:rotate(-5deg);
+}
+
+.about-text p{
+    color:#92979d;
+
+    font-size:13px;
+    line-height:1.9;
+
+    margin:20px 0;
+}
+
+.stats{
+    display:flex;
+    gap:55px;
+
+    margin-top:45px;
+    padding-top:25px;
+
+    border-top:1px solid var(--line);
+}
+
+.stat{
+    display:flex;
+    flex-direction:column;
+}
+
+.stat strong{
+    font-family:Anton;
+    font-size:40px;
+}
+
+.stat span{
+    color:#777;
+    font-size:8px;
+    letter-spacing:.15em;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.services{
+    background:#080a0d;
+}
+
+.service-grid{
+    margin-top:60px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    border-top:1px solid var(--line);
+}
+
+.service{
+    padding:30px 22px 45px 0;
+
+    border-right:1px solid var(--line);
+}
+
+.service + .service{
+    padding-left:22px;
+}
+
+.service-number{
+    color:var(--green);
+    font-size:9px;
+}
+
+.service h3{
+    margin-top:70px;
+    margin-bottom:15px;
+
+    font-size:20px;
+}
+
+.service p{
+    color:#777;
+
+    font-size:11px;
+    line-height:1.8;
+}
+
+/* =========================
+   WORK
+========================= */
+
+.work{
+    background:#050608;
+}
+
+.work-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+
+    gap:50px;
+
+    margin-bottom:55px;
+}
+
+.work-top p{
+    max-width:350px;
+
+    color:#858b91;
+
+    font-size:11px;
+    line-height:1.8;
+}
+
+.gallery{
+    display:grid;
+
+    grid-template-columns:1.2fr .8fr;
+
+    gap:18px;
+}
+
+.project{
+    position:relative;
+
+    overflow:hidden;
+
+    min-height:430px;
+
+    background:#111;
+}
+
+.project-large{
+    grid-row:span 2;
+    min-height:880px;
+}
+
+.project img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transition:.7s;
+}
+
+.project:hover img{
+    transform:scale(1.05);
+}
+
+.project::after{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            transparent 40%,
+            rgba(0,0,0,.9)
+        );
+}
+
+.project-info{
+    position:absolute;
+
+    left:25px;
+    right:25px;
+    bottom:25px;
+
+    z-index:5;
+}
+
+.project-info small{
+    color:var(--green);
+
+    font-size:8px;
+}
+
+.project-info h3{
+    font-family:Anton;
+    font-size:30px;
+    font-weight:400;
+
+    margin:8px 0;
+}
+
+.project-info p{
+    color:#aaa;
+    font-size:8px;
+}
+
+.play-button{
+    position:absolute;
+
+    top:20px;
+    right:20px;
+
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    background:rgba(0,0,0,.5);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    z-index:10;
+
+    transition:.3s;
+}
+
+.play-button:hover{
+    background:var(--green);
+    color:#000;
+}
+
+/* =========================
+   SHOWREEL
+========================= */
+
+.showreel{
+    padding:150px 8vw;
+
+    background:
+        radial-gradient(
+            circle at 70% 50%,
+            rgba(20,110,160,.3),
+            transparent 40%
+        ),
+        #07090c;
+}
+
+.showreel-button{
+    margin-top:50px;
+
+    padding:18px 28px;
+
+    border-radius:50px;
+
+    border:1px solid var(--line);
+
+    background:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:10px;
+
+    letter-spacing:.15em;
+}
+
+.showreel-button:hover{
+    border-color:var(--green);
+}
+
+.showreel-button span{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    width:35px;
+    height:35px;
+
+    margin-right:10px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    color:#000;
+}
+
+/* =========================
+   BEFORE AFTER
+========================= */
+
+.before-after{
+    background:#080a0d;
+}
+
+.comparison{
+    position:relative;
+
+    height:min(65vw,650px);
+
+    overflow:hidden;
+
+    margin-top:55px;
+
+    background:#111;
+}
+
+.comparison > img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.before{
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:50%;
+    height:100%;
+
+    overflow:hidden;
+}
+
+.before img{
+    width:100vw;
+    max-width:none;
+    height:100%;
+
+    object-fit:cover;
+
+    filter:grayscale(1);
+}
+
+.comparison-line{
+    position:absolute;
+
+    top:0;
+    bottom:0;
+    left:50%;
+
+    width:2px;
+
+    background:var(--green);
+
+    z-index:5;
+}
+
+.comparison-handle{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:55px;
+    height:55px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:var(--green);
+    color:#000;
+
+    z-index:10;
+
+    pointer-events:none;
+}
+
+.range{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    opacity:0;
+
+    cursor:ew-resize;
+
+    z-index:20;
+}
+
+/* =========================
+   SKILLS
+========================= */
+
+.skills-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10vw;
+}
+
+.tools{
+    border-top:1px solid var(--line);
+}
+
+.tool{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid var(--line);
+}
+
+.tool strong{
+    font-size:13px;
+}
+
+.tool span{
+    color:#777;
+
+    font-size:7px;
+
+    letter-spacing:.15em;
+}
+
+/* =========================
+   PROCESS
+========================= */
+
+.process{
+    background:#080a0d;
+}
+
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    margin-top:60px;
+
+    border-top:1px solid var(--line);
+}
+
+.process-item{
+    padding:25px 20px 25px 0;
+
+    border-right:1px solid var(--line);
+}
+
+.process-item + .process-item{
+    padding-left:20px;
+}
+
+.process-item span{
+    color:var(--green);
+    font-size:9px;
+}
+
+.process-item h3{
+    font-family:Anton;
+
+    font-size:30px;
+
+    margin:45px 0 12px;
+}
+
+.process-item p{
+    color:#777;
+
+    font-size:10px;
+
+    line-height:1.8;
+}
+
+/* =========================
+   SOCIAL
+========================= */
+
+.social{
+    padding:110px 8vw;
+}
+
+.social-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+
+    border-top:1px solid var(--line);
+}
+
+.social-card{
+    padding:30px 20px 30px 0;
+
+    border-right:1px solid var(--line);
+
+    transition:.3s;
+}
+
+.social-card + .social-card{
+    padding-left:20px;
+}
+
+.social-card span{
+    color:#777;
+
+    font-size:8px;
+
+    letter-spacing:.18em;
+}
+
+.social-card h3{
+    font-size:18px;
+
+    margin:15px 0;
+}
+
+.social-card small{
+    color:#666;
+
+    font-size:8px;
+}
+
+.social-card:hover h3{
+    color:var(--green);
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:150px 8vw 100px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5,6,8,.97),
+            rgba(5,6,8,.65)
+        ),
+        url("assets/portfolio-reference.jpg")
+        center/cover;
+}
+
+.contact-grid{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:end;
+
+    gap:60px;
+}
+
+.contact-links{
+    width:390px;
+}
+
+.contact-link{
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    padding:20px 0;
+
+    border-top:1px solid var(--line);
+}
+
+.contact-link span{
+    color:#777;
+
+    font-size:8px;
+
+    letter-spacing:.15em;
+}
+
+.contact-link strong{
+    font-size:14px;
+}
+
+.contact-link:hover strong{
+    color:var(--green);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:25px 8vw;
+
+    border-top:1px solid var(--line);
+
+    color:#666;
+
+    font-size:8px;
+
+    letter-spacing:.15em;
+}
+
+/* =========================
+   VIDEO MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:1000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:30px;
+
+    background:rgba(0,0,0,.92);
+
+    backdrop-filter:blur(10px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(1000px,100%);
+
+    position:relative;
+
+    background:#080a0d;
+
+    border:1px solid var(--line);
+
+    padding:20px;
+}
+
+.modal video{
+    width:100%;
+    max-height:80vh;
+    background:#000;
+}
+
+.close{
+    position:absolute;
+
+    right:15px;
+    top:5px;
+
+    z-index:5;
+
+    background:none;
+    border:0;
+
+    color:#fff;
+
+    font-size:35px;
+
+    cursor:pointer;
+}
+
+/* =========================
+   SCROLL ANIMATION
+========================= */
+
+.reveal{
+    opacity:0;
+
+    transform:translateY(35px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.reveal.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+    .nav-links,
+    .hire-btn{
+        display:none;
+    }
+
+    .menu{
+        display:block;
+    }
+
+    .hero{
+        padding:130px 7vw 80px;
+    }
+
+    .hero h1{
+        font-size:75px;
+    }
+
+    .hero-info{
+        display:none;
+    }
+
+    .about-grid,
+    .skills-grid{
+        grid-template-columns:1fr;
+    }
+
+    .about-image{
+        max-width:500px;
+    }
+
+    .service-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .gallery{
+        grid-template-columns:1fr;
+    }
+
+    .project-large{
+        grid-row:auto;
+        min-height:600px;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .social-grid{
+        grid-template-columns:1fr;
+    }
+
+    .social-card,
+    .social-card + .social-card{
+        padding:25px 0;
+        border-right:0;
+        border-bottom:1px solid var(--line);
+    }
+
+    .contact-grid{
+        display:block;
+    }
+
+    .contact-links{
+        margin-top:50px;
+        width:100%;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .section{
+        padding:90px 6vw;
+    }
+
+    .hero{
+        padding:130px 6vw 70px;
+    }
+
+    .hero h1{
+        font-size:70px;
+    }
+
+    .hero-description{
+        font-size:13px;
+    }
+
+    .hero-buttons{
+        flex-wrap:wrap;
+    }
+
+    .stats{
+        gap:20px;
+        justify-content:space-between;
+    }
+
+    .stats strong{
+        font-size:30px;
+    }
+
+    .service-grid{
+        grid-template-columns:1fr;
+    }
+
+    .service{
+        border-right:0;
+        border-bottom:1px solid var(--line);
+    }
+
+    .service + .service{
+        padding-left:0;
+    }
+
+    .project-large{
+        min-height:480px;
+    }
+
+    .project{
+        min-height:380px;
+    }
+
+    .process-grid{
+        grid-template-columns:1fr;
+    }
+
+    .process-item,
+    .process-item + .process-item{
+        padding:25px 0;
+        border-right:0;
+        border-bottom:1px solid var(--line);
+    }
+
+    .comparison{
+        height:110vw;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="noise"></div>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <a href="#home" class="logo">
+        <span>MV</span>
+        MUKESH VISUALS
+    </a>
+
+    <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <a
+        class="hire-btn"
+        href="https://wa.me/917814528897"
+        target="_blank"
+    >
+        Let's Work ↗
+    </a>
+
+    <button class="menu" onclick="toggleMenu()">
+        ☰
+    </button>
+
+</header>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
+
+    <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        poster="assets/monochrome-portrait.jpg"
+    >
+
+        <source
+            src="assets/showreel.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content reveal">
+
+        <div class="small-title">
+            VIDEO EDITOR • CREATIVE STORYTELLER
+        </div>
+
+        <h1>
+            MAKE IT<br>
+            <span>VISUAL.</span>
+        </h1>
+
+        <p class="hero-description">
+
+            I turn raw footage into cinematic,
+            engaging content for YouTube,
+            Instagram, Shorts, Reels and brands.
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#work" class="btn btn-primary">
+                View My Work ↗
+            </a>
+
+            <a href="#contact" class="btn btn-outline">
+                Hire Me
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-info">
+        MUKESH VISUALS / 2026
+    </div>
+
+</section>
+
+<!-- =========================
+     MARQUEE
+========================= -->
+
+<div class="marquee">
+
+    <div>
+        VIDEO EDITING • COLOR GRADING • MOTION GRAPHICS •
+        REELS • SHORTS • YOUTUBE • CINEMATIC • AI VIDEO •
+        VIDEO EDITING • COLOR GRADING • MOTION GRAPHICS •
+    </div>
+
+</div>
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section class="section about" id="about">
+
+    <div class="section-number">
+        01 / ABOUT
+    </div>
+
+    <div class="about-grid">
+
+        <div class="about-image reveal">
+
+            <img
+                src="assets/monochrome-portrait.jpg"
+                alt="Mukesh Visuals"
+            >
+
+            <div class="image-tag">
+                MUKESH<br>
+                VISUALS
+            </div>
+
+        </div>
+
+        <div class="about-text reveal">
+
+            <div class="small-title">
+                CREATIVE VIDEO EDITOR
+            </div>
+
+            <h2 class="section-title">
+                YOUR IDEA.<br>
+                <span>MY EDIT.</span>
+            </h2>
+
+            <p>
+                Creative and detail-oriented Video Editor
+                focused on storytelling, pacing and
+                visually engaging content.
+            </p>
+
+            <p>
+                I work with YouTube videos, Reels,
+                Shorts, cinematic edits, promotional
+                content, color grading, motion graphics
+                and sound design.
+            </p>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong>3+</strong>
+                    <span>Years Experience</span>
+                </div>
+
+                <div class="stat">
+                    <strong>7+</strong>
+                    <span>AI Tools</span>
+                </div>
+
+                <div class="stat">
+                    <strong>2023</strong>
+                    <span>Freelance Since</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section class="section services" id="services">
+
+    <div class="section-number">
+        02 / SERVICES
+    </div>
+
+    <h2 class="section-title reveal">
+        WHAT I<br>
+        <span>DO.</span>
+    </h2>
+
+    <div class="service-grid">
+
+        <article class="service reveal">
+
+            <div class="service-number">01</div>
+
+            <h3>YouTube Editing</h3>
+
+            <p>
+                Long-form videos with storytelling,
+                pacing, subtitles, transitions,
+                music and polished sound.
+            </p>
+
+        </article>
+
+        <article class="service reveal">
+
+            <div class="service-number">02</div>
+
+            <h3>Reels & Shorts</h3>
+
+            <p>
+                Fast, engaging vertical edits
+                designed for Instagram,
+                YouTube Shorts and social media.
+            </p>
+
+        </article>
+
+        <article class="service reveal">
+
+            <div class="service-number">03</div>
+
+            <h3>Cinematic Videos</h3>
+
+            <p>
+                Film-style pacing, color grading,
+                music, sound design and
+                cinematic atmosphere.
+            </p>
+
+        </article>
+
+        <article class="service reveal">
+
+            <div class="service-number">04</div>
+
+            <h3>Promotional Content</h3>
+
+            <p>
+                Scroll-stopping promotional videos
+                designed around a clear visual message.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     WORK
+========================= -->
+
+<section class="section work" id="work">
+
+    <div class="section-number">
+        03 / SELECTED WORK
+    </div>
+
+    <div class="work-top">
+
+        <h2 class="section-title reveal">
+            VISUAL<br>
+            <span>STORIES.</span>
+        </h2>
+
+        <p class="reveal">
+            Explore my visual work, creative direction
+            and editing projects.
+        </p>
+
+    </div>
+
+    <div class="gallery">
+
+        <!-- PROJECT 1 -->
+
+        <article class="project project-large reveal">
+
+            <img
+                src="assets/portfolio-reference.jpg"
+                alt="Portfolio project"
+            >
+
+            <div class="project-info">
+
+                <small>01 / PROJECT</small>
+
+                <h3>PORTFOLIO</h3>
+
+                <p>
+                    Creative Direction / Visual Design
+                </p>
+
+            </div>
+
+            <button
+                class="play-button"
+                onclick="openVideo('assets/project-01.mp4')"
+            >
+                ▶
+            </button>
+
+        </article>
+
+        <!-- PROJECT 2 -->
+
+        <article class="project reveal">
+
+            <img
+                src="assets/editor-portrait.jpg"
+                alt="Editorial project"
+            >
+
+            <div class="project-info">
+
+                <small>02 / PROJECT</small>
+
+                <h3>EDITORIAL</h3>
+
+                <p>
+                    Personal Brand / Social Creative
+                </p>
+
+            </div>
+
+            <button
+                class="play-button"
+                onclick="openVideo('assets/project-02.mp4')"
+            >
+                ▶
+            </button>
+
+        </article>
+
+        <!-- PROJECT 3 -->
+
+        <article class="project reveal">
+
+            <img
+                src="assets/monochrome-portrait.jpg"
+                alt="Monochrome project"
+            >
+
+            <div class="project-info">
+
+                <small>03 / PROJECT</small>
+
+                <h3>MONOCHROME</h3>
+
+                <p>
+                    Portrait / Art Direction
+                </p>
+
+            </div>
+
+            <button
+                class="play-button"
+                onclick="openVideo('assets/project-03.mp4')"
+            >
+                ▶
+            </button>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SHOWREEL
+========================= -->
+
+<section class="showreel">
+
+    <div class="small-title">
+        SHOWREEL
+    </div>
+
+    <h2 class="section-title reveal">
+
+        PRESS PLAY.<br>
+
+        <span>SEE THE EDIT.</span>
+
+    </h2>
+
+    <button
+        class="showreel-button"
+        onclick="openVideo('assets/showreel.mp4')"
+    >
+
+        <span>▶</span>
+
+        PLAY SHOWREEL
+
+    </button>
+
+</section>
+
+<!-- =========================
+     BEFORE AFTER
+========================= -->
+
+<section class="section before-after">
+
+    <div class="section-number">
+        04 / BEFORE → AFTER
+    </div>
+
+    <h2 class="section-title reveal">
+
+        RAW TO<br>
+
+        <span>REFINED.</span>
+
+    </h2>
+
+    <div class="comparison reveal">
+
+        <img
+            src="assets/editor-portrait.jpg"
+            alt="Final"
+        >
+
+        <div class="before">
+
+            <img
+                src="assets/monochrome-portrait.jpg"
+                alt="Before"
+            >
+
+        </div>
+
+        <div class="comparison-line"></div>
+
+        <div class="comparison-handle">
+            ↔
+        </div>
+
+        <input
+            type="range"
+            class="range"
+            min="0"
+            max="100"
+            value="50"
+        >
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SKILLS
+========================= -->
+
+<section class="section" id="skills">
+
+    <div class="section-number">
+        05 / TOOLKIT
+    </div>
+
+    <div class="skills-grid">
+
+        <h2 class="section-title reveal">
+
+            TOOLS I<br>
+
+            <span>USE.</span>
+
+        </h2>
+
+        <div class="tools reveal">
+
+            <div class="tool">
+                <strong>Adobe Premiere Pro</strong>
+                <span>VIDEO EDITING</span>
+            </div>
+
+            <div class="tool">
+                <strong>Adobe After Effects</strong>
+                <span>MOTION / VFX</span>
+            </div>
+
+            <div class="tool">
+                <strong>Color Grading</strong>
+                <span>LOOK DEVELOPMENT</span>
+            </div>
+
+            <div class="tool">
+                <strong>Sound Design</strong>
+                <span>AUDIO</span>
+            </div>
+
+            <div class="tool">
+                <strong>Photoshop</strong>
+                <span>GRAPHICS</span>
+            </div>
+
+            <div class="tool">
+                <strong>Runway • Pika • Kling</strong>
+                <span>AI VIDEO</span>
+            </div>
+
+            <div class="tool">
+                <strong>Midjourney • Firefly</strong>
+                <span>AI VISUALS</span>
+            </div>
+
+            <div class="tool">
+                <strong>Canva AI • CapCut AI</strong>
+                <span>FAST CONTENT</span>
+            </div>
+
+            <div class="tool">
+                <strong>Google Veo</strong>
+                <span>AI VIDEO</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     PROCESS
+========================= -->
+
+<section class="section process">
+
+    <div class="section-number">
+        06 / PROCESS
+    </div>
+
+    <h2 class="section-title reveal">
+        HOW I<br>
+        <span>WORK.</span>
+    </h2>
+
+    <div class="process-grid">
+
+        <div class="process-item reveal">
+
+            <span>01</span>
+
+            <h3>BRIEF</h3>
+
+            <p>
+                Understand your idea,
+                audience and visual direction.
+            </p>
+
+        </div>
+
+        <div class="process-item reveal">
+
+            <span>02</span>
+
+            <h3>EDIT</h3>
+
+            <p>
+                Build the story with pacing,
+                visuals, transitions and sound.
+            </p>
+
+        </div>
+
+        <div class="process-item reveal">
+
+            <span>03</span>
+
+            <h3>POLISH</h3>
+
+            <p>
+                Color, audio, graphics and
+                final quality pass.
+            </p>
+
+        </div>
+
+        <div class="process-item reveal">
+
+            <span>04</span>
+
+            <h3>DELIVER</h3>
+
+            <p>
+                Export polished,
+                ready-to-publish content.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     SOCIAL
+========================= -->
+
+<section class="social">
+
+    <div class="section-number">
+        07 / SOCIAL
+    </div>
+
+    <div class="social-grid">
+
+        <a href="#" class="social-card reveal">
+
+            <span>INSTAGRAM</span>
+
+            <h3>@YOUR_USERNAME ↗</h3>
+
+            <small>
+                Add your Instagram link here
+            </small>
+
+        </a>
+
+        <a href="#" class="social-card reveal">
+
+            <span>YOUTUBE</span>
+
+            <h3>YOUR CHANNEL ↗</h3>
+
+            <small>
+                Add your YouTube link here
+            </small>
+
+        </a>
+
+        <a href="#" class="social-card reveal">
+
+            <span>TIKTOK</span>
+
+            <h3>@YOUR_USERNAME ↗</h3>
+
+            <small>
+                Add your TikTok link here
+            </small>
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="contact" id="contact">
+
+    <div class="section-number">
+        08 / CONTACT
+    </div>
+
+    <div class="contact-grid">
+
+        <h2 class="section-title reveal">
+
+            LET'S MAKE<br>
+
+            <span>SOMETHING</span><br>
+
+            MEMORABLE.
+
+        </h2>
+
+        <div class="contact-links reveal">
+
+            <a
+                href="https://wa.me/917814528897"
+                target="_blank"
+                class="contact-link"
+            >
+
+                <span>WHATSAPP</span>
+
+                <strong>
+                    +91 78145 28897 ↗
+                </strong>
+
+            </a>
+
+            <a
+                href="mailto:mk8918505@gmail.com"
+                class="contact-link"
+            >
+
+                <span>EMAIL</span>
+
+                <strong>
+                    mk8918505@gmail.com ↗
+                </strong>
+
+            </a>
+
+            <a
+                href="#work"
+                class="contact-link"
+            >
+
+                <span>PORTFOLIO</span>
+
+                <strong>
+                    VIEW PROJECTS ↗
+                </strong>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <span>
+        © 2026 MUKESH VISUALS
+    </span>
+
+    <span>
+        VIDEO EDITOR / CREATIVE
+    </span>
+
+    <a href="#home">
+        BACK TO TOP ↑
+    </a>
+
+</footer>
+
+<!-- =========================
+     VIDEO MODAL
+========================= -->
+
+<div class="modal" id="videoModal">
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeVideo()"
+        >
+            ×
+        </button>
+
+        <video
+            id="modalVideo"
+            controls
+            playsinline
+        ></video>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu(){
+
+    const nav = document.querySelector(".nav-links");
+
+    if(nav.style.display === "flex"){
+
+        nav.style.display = "none";
+
+    }else{
+
+        nav.style.display = "flex";
+
+        nav.style.position = "absolute";
+        nav.style.top = "80px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+
+        nav.style.flexDirection = "column";
+
+        nav.style.padding = "25px";
+
+        nav.style.background = "#080a0d";
+
+    }
+
+}
+
+
+/* =========================
+   VIDEO MODAL
+========================= */
+
+function openVideo(video){
+
+    const modal =
+        document.getElementById("videoModal");
+
+    const player =
+        document.getElementById("modalVideo");
+
+    modal.classList.add("active");
+
+    player.src = video;
+
+    player.play().catch(()=>{});
+
+}
+
+
+function closeVideo(){
+
+    const modal =
+        document.getElementById("videoModal");
+
+    const player =
+        document.getElementById("modalVideo");
+
+    player.pause();
+
+    player.removeAttribute("src");
+
+    player.load();
+
+    modal.classList.remove("active");
+
+}
+
+
+/* Close modal when clicking background */
+
+document
+.getElementById("videoModal")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+
+        closeVideo();
+
+    }
+
+});
+
+
+/* =========================
+   BEFORE / AFTER
+========================= */
+
+const slider =
+    document.querySelector(".range");
+
+const before =
+    document.querySelector(".before");
+
+const line =
+    document.querySelector(".comparison-line");
+
+const handle =
+    document.querySelector(".comparison-handle");
+
+
+slider.addEventListener("input",function(){
+
+    const value = this.value;
+
+    before.style.width = value + "%";
+
+    line.style.left = value + "%";
+
+    handle.style.left = value + "%";
+
+});
+
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+const observer =
+    new IntersectionObserver(
+
+        function(entries){
+
+            entries.forEach(function(entry){
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add("show");
+
+                    observer.unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+
+        {
+            threshold:.12
+        }
+
+    );
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(function(element){
+
+    observer.observe(element);
+
+});
+
+
+/* =========================
+   ESCAPE CLOSE MODAL
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Escape"){
+
+            closeVideo();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
